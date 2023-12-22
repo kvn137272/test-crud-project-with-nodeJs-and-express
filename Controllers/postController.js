@@ -84,8 +84,15 @@ const updatePost = async (req, res, next) => {
         _id: id,
       },
       { title: title, body: body },
+      { new: true },
       { upsert: true }
     );
+    if (post === null) {
+      return res.status(404).json({
+        msg: "not found",
+      });
+    }
+    res.status(200).json(post);
   } else {
     res.status(400).json({
       msg: "please insert valid id ",
